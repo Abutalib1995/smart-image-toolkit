@@ -1,10 +1,18 @@
-import os
-from pathlib import Path
+from pydantic_settings import BaseSettings
 
-OUTPUT_DIR = Path(os.getenv("OUTPUT_DIR", "/tmp/outputs"))
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+class Settings(BaseSettings):
+    DATABASE_URL: str
+    JWT_SECRET_KEY: str
+    FRONTEND_URL: str = "http://localhost:5173"
 
-MAX_UPLOAD_MB = int(os.getenv("MAX_UPLOAD_MB", "10"))
-ALLOWED_MIME = {"image/jpeg", "image/png", "image/webp"}
+    CORS_ORIGINS: str = "*"
+    OUTPUT_DIR: str = "/tmp/outputs"
+    MAX_UPLOAD_MB: int = 10
 
-CORS_ORIGINS = [o.strip() for o in os.getenv("CORS_ORIGINS", "*").split(",") if o.strip()]
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    REFRESH_TOKEN_EXPIRE_DAYS: int = 30
+
+    class Config:
+        env_file = ".env"
+
+settings = Settings()

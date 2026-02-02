@@ -1,42 +1,27 @@
-# Smart Image Toolkit API (FastAPI)
+# Smart Image Toolkit API - Auth Edition (PostgreSQL + Admin)
 
-Production-ready Python FastAPI backend providing:
-- Compress image
-- Resize image
-- Convert image (JPG/PNG/WebP)
-- Add watermark
-- Extract EXIF metadata
+Upgraded backend with:
+- PostgreSQL (SQLAlchemy + Alembic)
+- Signup/Login (JWT access + refresh)
+- Email verification token
+- Forgot password token
+- Role based admin endpoints
+- Image tools protected with JWT
+- Usage logs
 
-## Run locally
+## Local setup
 ```bash
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
+source .venv/bin/activate
 pip install -r requirements.txt
+
+# create .env from .env.example and set DATABASE_URL
+alembic upgrade head
 uvicorn app.main:app --reload --port 8000
 ```
 
-Open docs: http://127.0.0.1:8000/docs
-
-## Render deploy
-Build Command:
-```bash
-pip install -r requirements.txt
-```
-
-Start Command:
-```bash
-uvicorn app.main:app --host 0.0.0.0 --port $PORT
-```
-
-Env:
-- OUTPUT_DIR=/tmp/outputs
-- CORS_ORIGINS=*
-- MAX_UPLOAD_MB=10
-
-## API
-Base `/api/v1`
-- POST /compress?quality=75
-- POST /resize?max_width=1200
-- POST /convert?format=webp
-- POST /watermark?text=YourBrand&opacity=0.35
-- POST /exif
+## Render
+- Create PostgreSQL
+- Set env vars
+- Build: pip install -r requirements.txt
+- Start: uvicorn app.main:app --host 0.0.0.0 --port $PORT
